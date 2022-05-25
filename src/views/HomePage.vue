@@ -21,7 +21,8 @@
     <main class="home-page__list px-lg">
       <div v-if="loadingFinished" class="pb-md">
         <h2 class="section-title pt-md">Listagem</h2>
-        <country-card v-for="(item, index) in countriesList" :key="index" :country="item" :continent="continent.name" class="my-md" />
+        <country-card v-if="countriesList.length" v-for="(item, index) in countriesList" :key="index" :country="item" :continent="continent.name" class="my-md" />
+        <p class="home_page__no-results mt-lg">Nenhum resultado encontrado</p>
       </div>
 
       <div class="home-page__loading" v-else>
@@ -185,6 +186,11 @@ export default {
     border-radius: 36px 36px 0 0;
     background: #fff;
     height: 36px;
+  }
+
+  &__no-results {
+    text-align: center;
+    color: $grey3;
   }
 
   &__loading {
