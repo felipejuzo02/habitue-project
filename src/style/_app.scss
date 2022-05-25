@@ -1,0 +1,19 @@
+@import './breakpoints';
+@import './spacings';
+@import './variables';
+
+.section-title {
+  color: $black;
+  position: relative;
+  font-size: 1.75rem;
+
+  &::after {
+    content: '';
+    background-color: $primary;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    bottom: 6px;
+  }
+}

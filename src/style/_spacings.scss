@@ -1,0 +1,19 @@
+$types: (
+  "mt": "margin-top", "mb": "margin-bottom", "ml": "margin-left", "mr": "margin-right", "ma": "margin", "mx": "margin", "my": "margin",
+  "pt": "padding-top", "pb": "padding-bottom", "pl": "padding-left", "pr": "padding-right", "pa": "padding", "px": "padding", "py": "padding"
+);
+$sizes: ("xs": "4px" ,"sm": "8px", "md": "16px", "lg": "32px", "xl": "64px");
+
+@each $name, $value in $types {
+  @each $size, $sizeValue in $sizes {
+    .#{$name}-#{$size} {
+      @if $name == "mx" or $name == "px" {
+        #{$value} : 0 #{$sizeValue};
+      } @else if $name == "my" or $name == "py" {
+        #{$value} : #{$sizeValue} 0;
+      } @else {
+        #{$value}: #{$sizeValue};
+      }
+    }
+  }
+}
