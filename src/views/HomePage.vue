@@ -6,7 +6,7 @@
       </h1>
   
       <div class="home-page__filters mt-md">
-        <search-filter placeholder="Buscar paises..." @click="chamandoOSearch" />
+        <search-filter placeholder="Buscar paises..." @click="chamandoOSearch" v-model="searchValue" />
         <button class="home-page__filter-button px-sm ml-md" @click="goToFilters">
           <img src="../assets/icons/filter.svg" alt="Icone de filtro">
         </button>
@@ -21,8 +21,10 @@
     <main class="home-page__list px-lg">
       <div v-if="loadingFinished" class="pb-md">
         <h2 class="section-title pt-md">Listagem</h2>
-        <country-card v-if="countriesList.length" v-for="(item, index) in countriesList" :key="index" :country="item" :continent="continent.name" class="my-md" />
-        <p class="home_page__no-results mt-lg">Nenhum resultado encontrado</p>
+        <div v-if="countriesList.length">
+          <country-card v-for="(item, index) in countriesList" :key="index" :country="item" :continent="continent.name" class="my-md" />
+        </div>
+        <p v-else class="home-page__no-results mt-xl">Nenhum resultado encontrado</p>
       </div>
 
       <div class="home-page__loading" v-else>
@@ -68,6 +70,7 @@ export default {
       loadingFinished: false,
       continentModal: false,
       selectedContinent: '',
+      searchValue: ''
     }
   },
 
@@ -75,7 +78,7 @@ export default {
     ...mapGetters({
       continents: 'continents/continents',
       continent: 'continents/continent',
-      customQuery: 'continents/customQuery',
+      customQuery: 'continents/customQuery'
     }),
 
     homePageClasses () {
@@ -89,7 +92,13 @@ export default {
     countriesList () {
       const { languageQuantity } = this.customQuery
 
-      return this.hasLanguageQuantity ? filterList(this.continent?.countries, languageQuantity) : this.continent?.countries
+      const countries = this.hasLanguageQuantity ? filterList(this.continent?.countries, languageQuantity) : this.continent?.countries
+
+      return countries.filter(country => {
+        const regex = new RegExp(this.searchValue, 'i')
+
+        return regex.test(country?.name)
+      })
     },
 
     hasLanguageQuantity () {
@@ -101,7 +110,7 @@ export default {
     quantityLanguageLabel () {
       const { languageQuantity } = this.customQuery
 
-      return `${languageQuantity} ${languageQuantity === 1 ? 'idioma' : 'idiomas'}`
+      return `${languageQuantity} ${languageQuantity === 1 ? 'idioma' : '+ idiomas'}`
     }
   },
 

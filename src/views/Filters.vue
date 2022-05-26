@@ -16,16 +16,16 @@
         <p>Quantidade de idiomas no pais</p>
         <div class="mt-xs">
           <div class="filters-page__radio">
-            <input type="radio" id="1" value="1" name="moreLanguages">
-            <label for="1">1 idioma</label>
+            <input type="radio" id="0" value="0" name="moreLanguages">
+            <label for="0">Exibir todos</label>
           </div>
           <div class="filters-page__radio my-xs">
-            <input type="radio" id="2" value="2" name="moreLanguages">
-            <label for="2">2 idiomas</label>
+            <input type="radio" id="1" value="1" name="moreLanguages">
+            <label for="1">1 apenas</label>
           </div>
           <div class="filters-page__radio">
-            <input type="radio" id="3" value="3" name="moreLanguages">
-            <label for="3">3 idiomas</label>
+            <input type="radio" id="2" value="2" name="moreLanguages">
+            <label for="2">2 ou +</label>
           </div>
         </div>
       </section>
@@ -74,7 +74,8 @@ export default {
   computed: {
     ...mapGetters({
       continents: 'continents/continents',
-      continent: 'continents/continent'
+      continent: 'continents/continent',
+      customQuery: 'continents/customQuery'
     }),
 
     defaultPlaceholder () {
@@ -84,6 +85,7 @@ export default {
 
   async created () {
     this.continent && await this.fetchContinents()
+    this.setDefaultRadio()
   },
 
   methods: {
@@ -109,6 +111,12 @@ export default {
 
     goToBackPage () {
       this.$router.go(-1)
+    },
+
+    setDefaultRadio () {
+      const { languageQuantity } = this.customQuery
+
+      document.querySelector(`input[id="${languageQuantity || 0}"]`).checked = true
     }
   }
 }

@@ -13,7 +13,7 @@ export default {
     }
   }
 }
-</script>r
+</script>
 
 <style lang="scss">
 .search-filter {
