@@ -56,4 +56,6 @@ Vejo como de extrema necessidade, sempre ter em mente possíveis melhorias, tant
 - Seleção de outros idiomas
   Ao selecionar outros idiomas, acho interessante limpar a listagem, pois caso na listagem tenha muitas linguagens, acaba ficando imperceptível que foi escolhida uma.
 
+---
+
 Projeto realizado com carinho por <a href="https://github.com/felipejuzo02">Luis Felipe Juzo</a>
