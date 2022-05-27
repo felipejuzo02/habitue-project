@@ -1,6 +1,4 @@
 export default function (originalList, languageQuantity, languages) {
-  console.log('filters', languages)
-
   let filteredLisByLanguageQuantity = originalList.filter(item => {
     if (languageQuantity === 2) return item.languages.length >= 2
     else if (languageQuantity === 1) return item.languages.length === 1

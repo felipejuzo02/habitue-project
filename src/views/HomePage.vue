@@ -15,7 +15,9 @@
       <div class="home-page__chips mt-md">
         <chip-filter :label="continentName" />
         <chip-filter v-if="hasLanguageQuantity" :label="quantityLanguageLabel" />
-        <chip-filter v-for="(item, index) in languages2" :key="index" :label="languageLabel(item)" />
+        <div v-for="(item, index) in languagesFilter" :key="index">
+          <chip-filter v-if="hideOtherChip(item)" :label="languageLabel(item)" />
+        </div>
       </div>
     </header>
 
@@ -43,7 +45,7 @@
     <main-button label="Confirmar escolha" @click="close" />
   </div>
 
-  <div v-if="continentModal" class="home-page__opened-modal" @click="teste"></div>
+  <div v-if="continentModal" class="home-page__opened-modal"></div>
 </template>
 
 <script>
@@ -83,7 +85,7 @@ export default {
       languages: 'continents/languages'
     }),
 
-    languages2 () {
+    languagesFilter () {
       return this.customQuery?.languages
     },
 
@@ -140,16 +142,16 @@ export default {
       fetchLanguages: 'continents/fetchLanguages'
     }),
 
+    hideOtherChip (value) {
+      return value !== 'other'
+    },
+
     goToFilters () {
       this.$router.push({ name: 'Filters' })
     },
     
     languageLabel (code) {
       return this.languages.find(language => language.code === code)?.name
-    },
-
-    teste() {
-      console.log('Aqui fazer o pulse para sinalizar persistência do modal')
     },
 
     async close () {
@@ -161,10 +163,6 @@ export default {
 
     setSelectedContinent (value) {
       this.selectedContinent = value
-    },
-
-    chamandoOSearch (value) {
-      
     }
   }
 }

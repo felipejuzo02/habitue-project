@@ -1,15 +1,33 @@
 <template>
   <div class="search-filter">
-    <input class="search-filter__filter" v-bind="$attrs" type="text" v-model="value">
+    <input class="search-filter__filter" :class="inputClasses" v-bind="$attrs" type="text" v-model="value">
     <button class="search-filter__button" @click="$emit('search')"><img src="../assets/icons/search.svg" alt="Icone de pesquisa"></button>
   </div>
+  <p v-if="errorMessage" class="search-filter__error-message px-sm">{{ errorMessage }}</p>
 </template>
 
 <script>
 export default {
+  props: {
+    error: {
+      type: Boolean
+    },
+
+    errorMessage: {
+      type: String,
+      default: ''
+    },
+  },
+
   data () {
     return {
       value: ''
+    }
+  },
+
+  computed: {
+    inputClasses () {
+      return this.error && 'search-filter__filter--error'
     }
   }
 }
@@ -43,6 +61,10 @@ export default {
       border: 1px solid $primary;
       outline: none;
     }
+
+    &--error {
+      border: 1px solid $negative;
+    }
   }
 
   &__button {
@@ -51,6 +73,12 @@ export default {
     color: $black;
     padding: .875rem;
     cursor: pointer;
+  }
+
+  &__error-message {
+    color: $negative;
+    font-size: .875rem;
+    margin-top: .25rem;
   }
 }
 </style>

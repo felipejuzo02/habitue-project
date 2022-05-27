@@ -34,8 +34,7 @@
         </section>
   
         <section class="filters-page__languages">
-          <p>Idiomas</p>
-          <pre>{{ languages }}</pre>
+          <p class="mb-xs">Idiomas</p>
           <div class="filters-page__languages-container">
             <div class="filters-page__checkbox">
               <input type="checkbox" id="pt" value="pt" name="languages" v-model="languages">
@@ -57,28 +56,39 @@
               <input type="checkbox" id="fr" value="fr" name="languages" v-model="languages">
               <label for="fr">Francês</label>
             </div>
-            <div class="filters-page__checkbox my-xs">
+            <div class="filters-page__checkbox my-xs" @click="clearOthersLanguages">
               <input type="checkbox" id="other" value="other" name="languages" v-model="languages">
               <label for="other">Outro</label>
             </div>
-            <div>
-              teste
+            <div class="filters-page__checkbox my-xs">
+              <div class="px-md" v-for="(item, index) in othersLanguages" :key="index">
+                <input type="checkbox" :id="item" :value="item" name="othersLanguages" v-model="othersLanguages">
+                <label :for="item">{{ languageLabel(item) }}</label>
+              </div>
             </div>
 
             <div v-if="isOtherLanguage" class="mt-md">
               <p>Digite o nome do idioma desejado</p>
-              <search-filter placeholder="Buscar idiomas" v-model="searchValue" @search="searchLanguages" />
-              <div v-for="(item, index) in teste" :key="index" class="mt-sm filters-page__languages-list">
-                <p class="pa-sm" @click="selectLanguage(item)">{{ item.name }}</p>
+              <search-filter placeholder="Buscar idiomas" v-model="searchValue" @search="searchLanguages" :error="hasErrors" :error-message="errorMessage" />
+              <p v-if="clayton" class="filters-page__no-results pa-sm mt-md">Nenhum resultado encontrado</p>
+              <div v-else >
+                <div v-for="(item, index) in searchedLanguages" :key="index" class="mt-sm filters-page__languages-list">
+                  <p class="pa-sm" @click="selectLanguage(item)">{{ item.name }}</p>
+                </div>
               </div>
+
             </div>
           </div>
         </section>
   
-        <div class="filters-page__buttons mt-xl">
+        <footer class="filters-page__buttons mt-xl">
+          <button class="filters-page__clear-filters" @click="clearFilters">
+            <img src="../assets/icons/delete.svg" alt="Icone de excluir">
+            <p>Limpar filtros</p>
+          </button>
           <main-button label="Filtrar" @click="confirmFilter" />
           <button class="filters-page__secondary-button" @click="$router.go(-1)">Cancelar</button>
-        </div>
+        </footer>
       </div>
     </main>
   </section>
@@ -102,9 +112,19 @@ export default {
       selectedContinent: '',
       languages: [],
       languageQuantity: '',
-      teste: [],
+      searchedLanguages: [],
       searchValue: '',
-      othersLanguages: []
+      othersLanguages: [],
+      hasErrors: false,
+      didResearch: false
+    }
+  },
+
+  watch: {
+    languages () {
+      if(!this.isOtherLanguage) {
+        this.othersLanguages = []
+      }
     }
   },
 
@@ -115,6 +135,14 @@ export default {
       customQuery: 'continents/customQuery',
       languagesList: 'continents/languages'
     }),
+
+    errorMessage () {
+      return this.hasErrors ? 'Selecione o outro idioma' : ''
+    },
+
+    clayton () {
+      return !this.searchedLanguages.length && this.didResearch
+    },
 
     defaultPlaceholder () {
       return this.continent?.name || 'Selecione um continente'
@@ -137,27 +165,49 @@ export default {
       setCustomQuery: 'continents/setCustomQuery'
     }),
 
+    clearFilters () {
+      this.languages = []
+      this.languageQuantity = '0'
+      this.othersLanguages = []
+      this.searchValue = ''
+      this.hasErrors = false
+    },
+
+    languageLabel (code) {
+      return this.languagesList.find(language => language.code === code)?.name
+    },
+
     selectLanguage (language) {
-      this.othersLanguages.push(language.code)
+      if(!this.othersLanguages.includes(language.code)) {
+        this.othersLanguages.push(language.code)
+      } 
     },
 
     searchLanguages () {
+      this.didResearch = true
+
       const searchedLanguages = this.languagesList.filter(language => {
         const regex = new RegExp(this.searchValue, 'i')
 
         return regex.test(language?.name)
       })
 
-      this.teste = searchedLanguages
+      this.searchedLanguages = searchedLanguages
     },
 
     confirmFilter () {
+      if (this.languages.includes('other') && !this.othersLanguages.length) {
+        this.hasErrors = true
+        return
+      }
+
       this.setCustomQuery({
         continent: this.selectedContinent || this.continent?.code,
         languageQuantity: parseInt(this.languageQuantity),
         languages: [...this.languages, ...this.othersLanguages]
       })
 
+      this.hasErrors = false
       this.$router.push({ name: 'Home' })
     },
 
@@ -173,8 +223,10 @@ export default {
 
     setDefaultCheckbox () {
       const { languages } = this.customQuery
+      const defaultLanguages = ['pt', 'en', 'es', 'de', 'fr', 'other']
 
-      this.languages = languages || []
+      this.languages = languages?.filter(language => defaultLanguages.includes(language)) || []
+      this.othersLanguages = languages?.filter(language => !defaultLanguages.includes(language)) || []
     }
   }
 }
@@ -274,6 +326,26 @@ export default {
       &:hover {
         background-color: $grey2;
       }
+    }
+  }
+
+  &__no-results {
+    font-size: .875rem;
+    color: $grey3;
+  }
+
+  &__clear-filters {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: $negative;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: #fae8e8;
     }
   }
 
