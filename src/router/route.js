@@ -14,11 +14,6 @@ const routes = [
         path: 'filters',
         name: 'Filters',
         component: () => import('../views/Filters.vue')
-      },
-      {
-        path: 'country/:id',
-        name: 'Country',
-        component: () => import('../views/Country.vue')
       }
     ]
   }

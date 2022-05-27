@@ -1,12 +1,12 @@
 <template>
   <section class="home-page" :class="homePageClasses">
-    <header class="home-page__header pa-lg">
+    <header class="home-page__header pa-lg container">
       <h1 class="home-page__title">
         <img src="../assets/logo.svg" alt="Logo Habitue">
       </h1>
   
       <div class="home-page__filters mt-md">
-        <search-filter placeholder="Buscar paises..." @click="chamandoOSearch" v-model="searchValue" />
+        <search-filter placeholder="Buscar paises..." v-model="searchValue" />
         <button class="home-page__filter-button px-sm ml-md" @click="goToFilters">
           <img src="../assets/icons/filter.svg" alt="Icone de filtro">
         </button>
@@ -15,13 +15,14 @@
       <div class="home-page__chips mt-md">
         <chip-filter :label="continentName" />
         <chip-filter v-if="hasLanguageQuantity" :label="quantityLanguageLabel" />
+        <chip-filter v-for="(item, index) in languages2" :key="index" :label="languageLabel(item)" />
       </div>
     </header>
 
     <main class="home-page__list px-lg">
-      <div v-if="loadingFinished" class="pb-md">
+      <div v-if="loadingFinished" class="pb-md container">
         <h2 class="section-title pt-md">Listagem</h2>
-        <div v-if="countriesList.length">
+        <div class="home-page__countries-list" v-if="countriesList.length">
           <country-card v-for="(item, index) in countriesList" :key="index" :country="item" :continent="continent.name" class="my-md" />
         </div>
         <p v-else class="home-page__no-results mt-xl">Nenhum resultado encontrado</p>
@@ -78,8 +79,13 @@ export default {
     ...mapGetters({
       continents: 'continents/continents',
       continent: 'continents/continent',
-      customQuery: 'continents/customQuery'
+      customQuery: 'continents/customQuery',
+      languages: 'continents/languages'
     }),
+
+    languages2 () {
+      return this.customQuery?.languages
+    },
 
     homePageClasses () {
       return this.continentModal && 'home-page--blur'
@@ -90,9 +96,8 @@ export default {
     },
 
     countriesList () {
-      const { languageQuantity } = this.customQuery
-
-      const countries = this.hasLanguageQuantity ? filterList(this.continent?.countries, languageQuantity) : this.continent?.countries
+      const { languageQuantity, languages } = this.customQuery
+      const countries = this.hasLanguageQuantity || languages ? filterList(this.continent?.countries, languageQuantity, languages) : this.continent?.countries
 
       return countries.filter(country => {
         const regex = new RegExp(this.searchValue, 'i')
@@ -121,6 +126,8 @@ export default {
     } else {
       await this.fetchContinent(this.customQuery?.continent)
     }
+      
+    await this.fetchLanguages()
 
     this.loadingFinished = true
   },
@@ -129,11 +136,16 @@ export default {
     ...mapActions({
       fetchContinents: 'continents/fetchContinents',
       fetchContinent: 'continents/fetchContinent',
-      setCustomQuery: 'continents/setCustomQuery'
+      setCustomQuery: 'continents/setCustomQuery',
+      fetchLanguages: 'continents/fetchLanguages'
     }),
 
     goToFilters () {
       this.$router.push({ name: 'Filters' })
+    },
+    
+    languageLabel (code) {
+      return this.languages.find(language => language.code === code)?.name
     },
 
     teste() {
@@ -243,6 +255,20 @@ export default {
     width: 100%;
     top: 0;
     background-color: rgba(0, 0, 0, .6);
+  }
+}
+
+@include desktop-only {
+  .home-page {
+    &__header {
+      padding: 32px 0 !important;
+    }
+
+    &__countries-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2%;
+    }
   }
 }
 </style>

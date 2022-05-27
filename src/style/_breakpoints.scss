@@ -1,21 +1,7 @@
-$small-screen:      320px;
-$medium-screen:     768px;
 $large-screen:      1024px;
 
-@mixin sm {
-  @media (max-width: #{$small-screen}) {
-      @content;
-  }
-}
-
-@mixin md {
-  @media (max-width: #{$medium-screen}) {
-      @content;
-  }
-}
-
-@mixin lg {
-  @media (max-width: #{$large-screen}) {
+@mixin desktop-only {
+  @media (min-width: #{$large-screen}) {
       @content;
   }
 }

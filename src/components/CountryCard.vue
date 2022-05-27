@@ -6,7 +6,7 @@
     <div class="country-card__informations ml-md">
       <p class="country-card__tag">{{ continent }}</p>
       <div>
-        <p class="country-card__name">{{ truncateText(country.name, 25) }}</p>
+        <p class="country-card__name">{{ truncateText(country.name, 15) }}</p>
         <p class="country-card__languages">{{ truncateText(languages, 40) }}</p>
       </div>
 
@@ -36,17 +36,21 @@ export default {
   computed: {
     languages () {
       return this.country?.languages?.map(language => language?.name).join(' - ')
+    },
+
+    isMobileScreen () {
+      return window.screen.width
+    },
+
+    countryName () {
+      return window.screen.width < 1024
     }
   },
 
   methods: {
     getInitials,
 
-    truncateText,
-
-    goToCountryDetails () {
-      console.log('go to country details', this.country.name)
-    }
+    truncateText
   }
 }
 </script>
@@ -58,6 +62,7 @@ export default {
   align-items: center;
   position: relative;
   transition: transform .2s ease-in-out;
+  word-wrap:break-word;
 
   &:hover {
     transform: scale(1.0080);
@@ -108,6 +113,19 @@ export default {
   &__arrow {
     background: none;
     border: none;
+  }
+}
+
+@include desktop-only {
+  .country-card {
+    width: 32%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 16px;
+
+    &__tag,
+    &__arrow {
+      display: none;
+    }
   }
 }
 </style>

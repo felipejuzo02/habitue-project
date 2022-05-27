@@ -17,3 +17,8 @@
     bottom: 6px;
   }
 }
+
+.container {
+  max-width: $large-screen;
+  margin: 0 auto;
+}

@@ -3,13 +3,15 @@ const baseURL = 'https://countries.trevorblades.com/graphql'
 const state = {
   continents: [],
   continent: [],
-  customQuery: {}
+  customQuery: {},
+  languages: []
 }
 
 const getters = {
   continents: state => state.continents,
   continent: state => state.continent,
-  customQuery: state => state.customQuery
+  customQuery: state => state.customQuery,
+  languages: state => state.languages
 }
 
 const mutations = {
@@ -23,6 +25,10 @@ const mutations = {
 
   setCustomQuery: (state, query) => {
     state.customQuery = query
+  },
+
+  setLanguages: (state, { languages }) => {
+    state.languages = languages
   }
 }
 
@@ -50,6 +56,7 @@ const actions = {
             name
             languages {
               name
+              code
             }
           }
         }
@@ -61,6 +68,19 @@ const actions = {
 
   setCustomQuery({ commit }, customQuery) {
     commit('setCustomQuery', customQuery)
+  },
+
+  async fetchLanguages({ commit }) {
+    const query = `
+    {
+      languages {
+        name
+        code
+      }
+    }`
+
+    const { data } = await (await fetch(`${baseURL}?query=${query}`)).json()
+    commit('setLanguages', data)
   }
 }
 

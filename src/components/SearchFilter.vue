@@ -1,7 +1,7 @@
 <template>
   <div class="search-filter">
     <input class="search-filter__filter" v-bind="$attrs" type="text" v-model="value">
-    <button class="search-filter__button" @click="$emit('click', value)"><img src="../assets/icons/search.svg" alt="Icone de pesquisa"></button>
+    <button class="search-filter__button" @click="$emit('search')"><img src="../assets/icons/search.svg" alt="Icone de pesquisa"></button>
   </div>
 </template>
 
