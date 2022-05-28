@@ -5,7 +5,7 @@ Projeto realizado para o `Teste Técnico Desenvolvedor(a) Frontend Júnior Vue.j
 ## O projeto
 
 Consiste em basicamente em uma listagem de países a partir de um determinado continente, sendo que essa listagem pode ser personalizada a partir de seus filtros.
-Para a visualização, acesse: <a href="">Habitue - Vercel</a>
+Para a visualização, acesse: <a href="https://habitue-project.vercel.app/">Habitue - Vercel</a>
 
 ## Como dei inicio
 
