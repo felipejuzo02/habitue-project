@@ -15,8 +15,11 @@ Foi feito um `Style Guide` para padronizar desde as cores usada, até os tamanho
 ### O protótipo
 
 - Style Guide
+![image](https://user-images.githubusercontent.com/79236683/170800837-5949a52c-07b0-465f-9fcc-2e5e7162dca8.png)
 
 - Protótipo
+
+![image](https://user-images.githubusercontent.com/79236683/170800921-5a66b0b6-7e93-4c7a-9e9f-6e27df9a46dd.png)
 
 - Link para acesso: <a href="https://www.figma.com/file/FajJDvyPkzQUTbql9tYKya/Untitled?node-id=0%3A1">Figma Habitue</a>
 
@@ -55,5 +58,7 @@ Vejo como de extrema necessidade, sempre ter em mente possíveis melhorias, tant
 
 - Seleção de outros idiomas
   Ao selecionar outros idiomas, acho interessante limpar a listagem, pois caso na listagem tenha muitas linguagens, acaba ficando imperceptível que foi escolhida uma.
+
+---
 
 Projeto realizado com carinho por <a href="https://github.com/felipejuzo02">Luis Felipe Juzo</a>
