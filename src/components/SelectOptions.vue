@@ -5,7 +5,7 @@
         <div v-for="(item, index) in options" :key="index" class="select-options__option" @click="chooseOption(item)">
           <input type="radio" class="select-options__radio" :id="item.code" name="category">
           <label :for="item.code">{{ item.name }}</label>
-          <img src="../assets/icons/check.svg" alt="Icone de check">
+          <img src="../assets/icons/check.svg" alt="Check icon">
         </div>
       </div>
 
@@ -23,6 +23,15 @@ export default {
     },
 
     placeholder: {
+      type: String,
+      default: ''
+    },
+
+    error: {
+      type: Boolean
+    },
+
+    errorMessage: {
       type: String,
       default: ''
     }

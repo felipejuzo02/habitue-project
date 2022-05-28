@@ -2,13 +2,13 @@
   <section class="home-page" :class="homePageClasses">
     <header class="home-page__header pa-lg container">
       <h1 class="home-page__title">
-        <img src="../assets/logo.svg" alt="Logo Habitue">
+        <img src="../assets/logo.svg" alt="Habitue Logo">
       </h1>
   
       <div class="home-page__filters mt-md">
-        <search-filter placeholder="Buscar paises..." v-model="searchValue" />
+        <search-filter placeholder="Search countries..." v-model="searchValue" />
         <button class="home-page__filter-button px-sm ml-md" @click="goToFilters">
-          <img src="../assets/icons/filter.svg" alt="Icone de filtro">
+          <img src="../assets/icons/filter.svg" alt="Filter icon">
         </button>
       </div>
   
@@ -23,11 +23,11 @@
 
     <main class="home-page__list px-lg">
       <div v-if="loadingFinished" class="pb-md container">
-        <h2 class="section-title pt-md">Listagem</h2>
+        <h2 class="section-title pt-md">Listing</h2>
         <div class="home-page__countries-list" v-if="countriesList.length">
           <country-card v-for="(item, index) in countriesList" :key="index" :country="item" :continent="continent.name" class="my-md" />
         </div>
-        <p v-else class="home-page__no-results mt-xl">Nenhum resultado encontrado</p>
+        <p v-else class="home-page__no-results mt-xl">No results found</p>
       </div>
 
       <div class="home-page__loading" v-else>
@@ -38,11 +38,12 @@
 
   <div v-if="continentModal" class="home-page__continents-modal pa-lg">
     <div>
-      <h3 class="mb-sm">Escolha um continente</h3>
-      <p>Para continuar, é necessário que você defina um continente para realizar a consulta.</p>
+      <h3 class="mb-sm">Choose a continent</h3>
+      <p>To proceed, you must define a continent to carry out the query.</p>
     </div>
-    <select-options placeholder="Selecione um continente..." :options="continents" @choose-option="setSelectedContinent" />
-    <main-button label="Confirmar escolha" @click="close" />
+    <select-options placeholder="Select a continent..." :options="continents" @choose-option="setSelectedContinent" />
+    <main-button label="Confirm choice" @click="confirmChoice" />
+    <p></p>
   </div>
 
   <div v-if="continentModal" class="home-page__opened-modal"></div>
@@ -73,7 +74,8 @@ export default {
       loadingFinished: false,
       continentModal: false,
       selectedContinent: '',
-      searchValue: ''
+      searchValue: '',
+      hasError: false
     }
   },
 
@@ -117,7 +119,7 @@ export default {
     quantityLanguageLabel () {
       const { languageQuantity } = this.customQuery
 
-      return `${languageQuantity} ${languageQuantity === 1 ? 'idioma' : '+ idiomas'}`
+      return `${languageQuantity} ${languageQuantity === 1 ? 'language' : '+ languages'}`
     }
   },
 
@@ -154,10 +156,9 @@ export default {
       return this.languages.find(language => language.code === code)?.name
     },
 
-    async close () {
+    async confirmChoice () {
       await this.fetchContinent(this.selectedContinent)
       this.setCustomQuery({ continent: this.selectedContinent })
-
       this.continentModal = false
     },
 

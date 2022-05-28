@@ -2,63 +2,63 @@
   <section class="filters-page">
     <header class="filters-page__header pa-lg container">
       <button class="filters-page__back-button" @click="$router.go(-1)">
-        <img src="../assets/icons/arrow-left.svg" alt="Icone voltar de pagina">
+        <img src="../assets/icons/arrow-left.svg" alt="Back page icon">
       </button>
-      <h3>Filtrar</h3>
+      <h3>Filter</h3>
     </header>
     <main class="filters-page__choose-filters px-lg">
       <div class="container">
-        <h2 class="section-title pt-md">Escolher filtros</h2>
+        <h2 class="section-title pt-md">Choose filters</h2>
   
         <section class="my-lg">
-          <p>Continente</p>
+          <p>Continent</p>
           <select-options :placeholder="defaultPlaceholder" :options="continents" @choose-option="setSelectedContinent" />
         </section>
   
         <section class="my-lg">
-          <p>Quantidade de idiomas no pais</p>
+          <p>Number of languages in the country</p>
           <div class="mt-xs">
             <div class="filters-page__radio">
               <input type="radio" id="0" value="0" name="moreLanguages" v-model="languageQuantity">
-              <label for="0">Exibir todos</label>
+              <label for="0">Show all</label>
             </div>
             <div class="filters-page__radio my-xs">
               <input type="radio" id="1" value="1" name="moreLanguages" v-model="languageQuantity">
-              <label for="1">1 apenas</label>
+              <label for="1">1 only</label>
             </div>
             <div class="filters-page__radio">
               <input type="radio" id="2" value="2" name="moreLanguages" v-model="languageQuantity">
-              <label for="2">2 ou +</label>
+              <label for="2">2 or more</label>
             </div>
           </div>
         </section>
   
         <section class="filters-page__languages">
-          <p class="mb-xs">Idiomas</p>
+          <p class="mb-xs">Languages</p>
           <div class="filters-page__languages-container">
             <div class="filters-page__checkbox">
               <input type="checkbox" id="pt" value="pt" name="languages" v-model="languages">
-              <label for="pt">Português</label>
+              <label for="pt">Portuguese</label>
             </div>
             <div class="filters-page__checkbox my-xs">
               <input type="checkbox" id="en" value="en" name="languages" v-model="languages">
-              <label for="en">Inglês</label>
+              <label for="en">English</label>
             </div>
             <div class="filters-page__checkbox">
               <input type="checkbox" id="es" value="es" name="languages" v-model="languages">
-              <label for="es">Espanhol</label>
+              <label for="es">Spanish</label>
             </div>
             <div class="filters-page__checkbox my-xs">
               <input type="checkbox" id="de" value="de" name="languages" v-model="languages">
-              <label for="de">Alemão</label>
+              <label for="de">German</label>
             </div>
             <div class="filters-page__checkbox">
               <input type="checkbox" id="fr" value="fr" name="languages" v-model="languages">
-              <label for="fr">Francês</label>
+              <label for="fr">French</label>
             </div>
             <div class="filters-page__checkbox my-xs" @click="clearOthersLanguages">
               <input type="checkbox" id="other" value="other" name="languages" v-model="languages">
-              <label for="other">Outro</label>
+              <label for="other">Other</label>
             </div>
             <div class="filters-page__checkbox my-xs">
               <div class="px-md" v-for="(item, index) in othersLanguages" :key="index">
@@ -68,9 +68,9 @@
             </div>
 
             <div v-if="isOtherLanguage" class="mt-md">
-              <p>Digite o nome do idioma desejado</p>
+              <p>Enter the desired language name</p>
               <search-filter placeholder="Buscar idiomas" v-model="searchValue" @search="searchLanguages" :error="hasErrors" :error-message="errorMessage" />
-              <p v-if="clayton" class="filters-page__no-results pa-sm mt-md">Nenhum resultado encontrado</p>
+              <p v-if="noResults" class="filters-page__no-results pa-sm mt-md">No results found</p>
               <div v-else >
                 <div v-for="(item, index) in searchedLanguages" :key="index" class="mt-sm filters-page__languages-list">
                   <p class="pa-sm" @click="selectLanguage(item)">{{ item.name }}</p>
@@ -83,11 +83,11 @@
   
         <footer class="filters-page__buttons mt-xl">
           <button class="filters-page__clear-filters" @click="clearFilters">
-            <img src="../assets/icons/delete.svg" alt="Icone de excluir">
-            <p>Limpar filtros</p>
+            <img src="../assets/icons/delete.svg" alt="Delete icon">
+            <p>Clear filters</p>
           </button>
-          <main-button label="Filtrar" @click="confirmFilter" />
-          <button class="filters-page__secondary-button" @click="$router.go(-1)">Cancelar</button>
+          <main-button label="Filter" @click="confirmFilter" />
+          <button class="filters-page__secondary-button" @click="$router.go(-1)">Cancel</button>
         </footer>
       </div>
     </main>
@@ -137,15 +137,15 @@ export default {
     }),
 
     errorMessage () {
-      return this.hasErrors ? 'Selecione o outro idioma' : ''
+      return this.hasErrors ? 'Select another language' : ''
     },
 
-    clayton () {
+    noResults () {
       return !this.searchedLanguages.length && this.didResearch
     },
 
     defaultPlaceholder () {
-      return this.continent?.name || 'Selecione um continente'
+      return this.continent?.name || 'Select a continent'
     },
 
     isOtherLanguage () {
