@@ -15,7 +15,7 @@ Foi feito um `Style Guide` para padronizar desde as cores usada, até os tamanho
 ### O protótipo
 
 - Style Guide
-![image](https://user-images.githubusercontent.com/79236683/170800837-5949a52c-07b0-465f-9fcc-2e5e7162dca8.png)
+  ![image](https://user-images.githubusercontent.com/79236683/170800837-5949a52c-07b0-465f-9fcc-2e5e7162dca8.png)
 
 - Protótipo
 
@@ -58,6 +58,9 @@ Vejo como de extrema necessidade, sempre ter em mente possíveis melhorias, tant
 
 - Seleção de outros idiomas
   Ao selecionar outros idiomas, acho interessante limpar a listagem, pois caso na listagem tenha muitas linguagens, acaba ficando imperceptível que foi escolhida uma.
+
+- Validação de paise no modal
+  Por algum motivo, a validação do modal na caso clique pra avançar sem definir continente não está funcionando perfeitamente
 
 ---
 

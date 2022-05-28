@@ -24,7 +24,7 @@
     <main class="home-page__list px-lg">
       <div v-if="loadingFinished" class="pb-md container">
         <h2 class="section-title pt-md">Listing</h2>
-        <div class="home-page__countries-list" v-if="countriesList.length">
+        <div class="home-page__countries-list" v-if="hasCountries">
           <country-card v-for="(item, index) in countriesList" :key="index" :country="item" :continent="continent.name" class="my-md" />
         </div>
         <p v-else class="home-page__no-results mt-xl">No results found</p>
@@ -99,15 +99,21 @@ export default {
       return this.continent?.name
     },
 
+    hasCountries () {
+      return this.countriesList?.length
+    },
+
     countriesList () {
       const { languageQuantity, languages } = this.customQuery
       const countries = this.hasLanguageQuantity || languages ? filterList(this.continent?.countries, languageQuantity, languages) : this.continent?.countries
 
-      return countries.filter(country => {
-        const regex = new RegExp(this.searchValue, 'i')
-
-        return regex.test(country?.name)
-      })
+      if(countries) {
+        return countries.filter(country => {
+          const regex = new RegExp(this.searchValue, 'i')
+  
+          return regex.test(country?.name)
+        })
+      }
     },
 
     hasLanguageQuantity () {
