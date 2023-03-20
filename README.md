@@ -1,6 +1,3 @@
-# Habitue
-
-Projeto realizado para o `Teste Técnico Desenvolvedor(a) Frontend Júnior Vue.js [REMOTO]` na `Instruct`
 
 ## O projeto
 
