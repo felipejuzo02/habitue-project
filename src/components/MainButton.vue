@@ -1,9 +1,19 @@
 <template>
-  <button :disabled="disabled" class="main-button" :class="mainButtonClasses" @click="$emit('click')">{{ label }}</button>
+  <button
+    class="main-button"
+    :class="mainButtonClasses"
+    :disabled="disabled"
+    type="button"
+    v-bind="$attrs"
+  >
+    {{ label }}
+  </button>
 </template>
 
 <script>
 export default {
+  name: 'MainButton',
+
   props: {
     label: {
       type: String,
@@ -12,7 +22,7 @@ export default {
 
     disabled: {
       type: Boolean
-    },
+    }
   },
 
   computed: {

@@ -1,13 +1,36 @@
 <template>
   <div class="search-filter">
-    <input class="search-filter__filter" :class="inputClasses" v-bind="$attrs" type="text" v-model="value">
-    <button class="search-filter__button" @click="$emit('search')"><img src="../assets/icons/search.svg" alt="Search icon"></button>
+    <input
+      v-bind="$attrs"
+      v-model="model"
+      class="search-filter__filter"
+      :class="inputClasses"
+      type="text"
+    >
+    <button
+      class="search-filter__button"
+      type="button"
+      @click="$emit('search')"
+    >
+      <img
+        alt="Search icon"
+        src="../assets/icons/search.svg"
+      >
+    </button>
   </div>
-  <p v-if="errorMessage" class="search-filter__error-message px-sm">{{ errorMessage }}</p>
+
+  <p
+    v-if="errorMessage"
+    class="px-sm search-filter__error-message"
+  >
+    {{ errorMessage }}
+  </p>
 </template>
 
 <script>
 export default {
+  name: 'SearchFilter',
+
   props: {
     error: {
       type: Boolean
@@ -17,17 +40,28 @@ export default {
       type: String,
       default: ''
     },
-  },
 
-  data () {
-    return {
-      value: ''
+    modelValue: {
+      type: [String, Number],
+      default: ''
     }
   },
+
+  emits: ['search', 'update:modelValue'],
 
   computed: {
     inputClasses () {
       return this.error && 'search-filter__filter--error'
+    },
+
+    model: {
+      get () {
+        return this.modelValue
+      },
+
+      set (value) {
+        return this.$emit('update:modelValue', value)
+      }
     }
   }
 }

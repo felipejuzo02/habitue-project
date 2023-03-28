@@ -2,20 +2,40 @@
   <div class="select-options">
     <div class="select-options__select-box">
       <div class="select-options__options-container">
-        <div v-for="(item, index) in options" :key="index" class="select-options__option" @click="chooseOption(item)">
-          <input type="radio" class="select-options__radio" :id="item.code" name="category">
+        <div
+          v-for="(item, index) in options"
+          :key="index"
+          class="select-options__option"
+          @click="chooseOption(item)"
+        >
+          <input
+            :id="item.code"
+            class="select-options__radio"
+            name="category"
+            type="radio"
+          >
           <label :for="item.code">{{ item.name }}</label>
-          <img src="../assets/icons/check.svg" alt="Check icon">
+          <img
+            alt="Check icon"
+            src="../assets/icons/check.svg"
+          >
         </div>
       </div>
 
-      <div class="select-options__selected mb-xs" @click="clickSelect">{{ selectedOption }}</div>
+      <div
+        class="mb-xs select-options__selected"
+        @click="clickSelect"
+      >
+        {{ selectedOption }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'SelectOptions',
+
   props: {
     options: {
       type: Array,
@@ -36,6 +56,8 @@ export default {
       default: ''
     }
   },
+
+  emits: ['choose-option'],
 
   data () {
     return {

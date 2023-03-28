@@ -1,17 +1,32 @@
 <template>
-  <div class="country-card" @click="goToCountryDetails">
+  <div
+    class="country-card"
+    @click="goToCountryDetails"
+  >
     <div class="country-card__initials">
       <p>{{ getInitials(country.name) }}</p>
     </div>
     <div class="country-card__informations ml-md">
-      <p class="country-card__tag">{{ continent }}</p>
+      <p class="country-card__tag">
+        {{ continent }}
+      </p>
       <div>
-        <p class="country-card__name">{{ truncateText(country.name, 15) }}</p>
-        <p class="country-card__languages">{{ truncateText(languages, 40) }}</p>
+        <p class="country-card__name">
+          {{ truncateText(country.name, 15) }}
+        </p>
+        <p class="country-card__languages">
+          {{ truncateText(languages, 40) }}
+        </p>
       </div>
 
-      <button class="country-card__arrow">
-        <img src="../assets/icons/arrow-right.svg" alt="Icone de seta para direita">
+      <button
+        class="country-card__arrow"
+        type="button"
+      >
+        <img
+          alt="Icone de seta para direita"
+          src="../assets/icons/arrow-right.svg"
+        >
       </button>
     </div>
   </div>
@@ -21,6 +36,8 @@
 import { getInitials, truncateText } from '../helpers'
 
 export default {
+  name: 'CountryCard',
+
   props: {
     country: {
       type: Object,

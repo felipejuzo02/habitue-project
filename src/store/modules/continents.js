@@ -43,6 +43,7 @@ const actions = {
       }`
 
     const { data } = await (await fetch(`${baseURL}?query=${query}`)).json()
+
     commit('setContinents', data)
   },
 
@@ -63,6 +64,7 @@ const actions = {
       }`
 
     const { data } = await (await fetch(`${baseURL}?query=${query}`)).json()
+
     commit('setContinent', data)
   },
 
@@ -80,6 +82,7 @@ const actions = {
     }`
 
     const { data } = await (await fetch(`${baseURL}?query=${query}`)).json()
+
     commit('setLanguages', data)
   }
 }

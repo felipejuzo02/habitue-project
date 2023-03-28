@@ -1,11 +1,15 @@
 <template>
   <div class="chip pa-sm">
-    <p class="chip__label px-lg">{{ label }}</p>
+    <p class="chip__label px-lg">
+      {{ label }}
+    </p>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'ChipFilter',
+
   props: {
     label: {
       type: String,

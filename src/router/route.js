@@ -13,7 +13,7 @@ const routes = [
       {
         path: 'filters',
         name: 'Filters',
-        component: () => import('../views/Filters.vue')
+        component: () => import('../views/FiltersPage.vue')
       }
     ]
   }

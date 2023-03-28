@@ -1,97 +1,221 @@
 <template>
-  <section class="filters-page">
-    <header class="filters-page__header pa-lg container">
-      <button class="filters-page__back-button" @click="$router.go(-1)">
-        <img src="../assets/icons/arrow-left.svg" alt="Back page icon">
+  <div class="filters-page">
+    <header class="container filters-page__header pa-lg">
+      <button
+        class="filters-page__back-button"
+        type="button"
+        @click="$router.go(-1)"
+      >
+        <img
+          alt="Back page icon"
+          src="../assets/icons/arrow-left.svg"
+        >
       </button>
       <h3>Filter</h3>
     </header>
+
     <main class="filters-page__choose-filters px-lg">
       <div class="container">
-        <h2 class="section-title pt-md">Choose filters</h2>
+        <h2 class="pt-md section-title">
+          Choose filters
+        </h2>
   
         <section class="my-lg">
           <p>Continent</p>
-          <select-options :placeholder="defaultPlaceholder" :options="continents" @choose-option="setSelectedContinent" />
+          <select-options
+            :options="continents"
+            :placeholder="defaultPlaceholder"
+            @choose-option="setSelectedContinent"
+          />
         </section>
   
         <section class="my-lg">
           <p>Number of languages in the country</p>
           <div class="mt-xs">
             <div class="filters-page__radio">
-              <input type="radio" id="0" value="0" name="moreLanguages" v-model="languageQuantity">
+              <input
+                id="0"
+                v-model="languageQuantity"
+                name="moreLanguages"
+                type="radio"
+                value="0"
+              >
               <label for="0">Show all</label>
             </div>
             <div class="filters-page__radio my-xs">
-              <input type="radio" id="1" value="1" name="moreLanguages" v-model="languageQuantity">
+              <input
+                id="1"
+                v-model="languageQuantity"
+                name="moreLanguages"
+                type="radio"
+                value="1"
+              >
               <label for="1">1 only</label>
             </div>
             <div class="filters-page__radio">
-              <input type="radio" id="2" value="2" name="moreLanguages" v-model="languageQuantity">
+              <input
+                id="2"
+                v-model="languageQuantity"
+                name="moreLanguages"
+                type="radio"
+                value="2"
+              >
               <label for="2">2 or more</label>
             </div>
           </div>
         </section>
   
         <section class="filters-page__languages">
-          <p class="mb-xs">Languages</p>
+          <p class="mb-xs">
+            Languages
+          </p>
           <div class="filters-page__languages-container">
             <div class="filters-page__checkbox">
-              <input type="checkbox" id="pt" value="pt" name="languages" v-model="languages">
+              <input
+                id="pt"
+                v-model="languages"
+                name="languages"
+                type="checkbox"
+                value="pt"
+              >
               <label for="pt">Portuguese</label>
             </div>
             <div class="filters-page__checkbox my-xs">
-              <input type="checkbox" id="en" value="en" name="languages" v-model="languages">
+              <input
+                id="en"
+                v-model="languages"
+                name="languages"
+                type="checkbox"
+                value="en"
+              >
               <label for="en">English</label>
             </div>
             <div class="filters-page__checkbox">
-              <input type="checkbox" id="es" value="es" name="languages" v-model="languages">
+              <input
+                id="es"
+                v-model="languages"
+                name="languages"
+                type="checkbox"
+                value="es"
+              >
               <label for="es">Spanish</label>
             </div>
             <div class="filters-page__checkbox my-xs">
-              <input type="checkbox" id="de" value="de" name="languages" v-model="languages">
+              <input
+                id="de"
+                v-model="languages"
+                name="languages"
+                type="checkbox"
+                value="de"
+              >
               <label for="de">German</label>
             </div>
             <div class="filters-page__checkbox">
-              <input type="checkbox" id="fr" value="fr" name="languages" v-model="languages">
+              <input
+                id="fr"
+                v-model="languages"
+                name="languages"
+                type="checkbox"
+                value="fr"
+              >
               <label for="fr">French</label>
             </div>
-            <div class="filters-page__checkbox my-xs" @click="clearOthersLanguages">
-              <input type="checkbox" id="other" value="other" name="languages" v-model="languages">
+            <div
+              class="filters-page__checkbox my-xs"
+              @click="clearOthersLanguages"
+            >
+              <input
+                id="other"
+                v-model="languages"
+                name="languages"
+                type="checkbox"
+                value="other"
+              >
               <label for="other">Other</label>
             </div>
             <div class="filters-page__checkbox my-xs">
-              <div class="px-md" v-for="(item, index) in othersLanguages" :key="index">
-                <input type="checkbox" :id="item" :value="item" name="othersLanguages" v-model="othersLanguages">
+              <div
+                v-for="(item, index) in othersLanguages"
+                :key="index"
+                class="px-md"
+              >
+                <input
+                  :id="item"
+                  v-model="othersLanguages"
+                  name="othersLanguages"
+                  type="checkbox"
+                  :value="item"
+                >
                 <label :for="item">{{ languageLabel(item) }}</label>
               </div>
             </div>
 
-            <div v-if="isOtherLanguage" class="mt-md">
+            <div
+              v-if="isOtherLanguage"
+              class="mt-md"
+            >
               <p>Enter the desired language name</p>
-              <search-filter placeholder="Buscar idiomas" v-model="searchValue" @search="searchLanguages" :error="hasErrors" :error-message="errorMessage" />
-              <p v-if="noResults" class="filters-page__no-results pa-sm mt-md">No results found</p>
-              <div v-else >
-                <div v-for="(item, index) in searchedLanguages" :key="index" class="mt-sm filters-page__languages-list">
-                  <p class="pa-sm" @click="selectLanguage(item)">{{ item.name }}</p>
+              <search-filter
+                v-model="searchValue"
+                :error="hasErrors"
+                :error-message="errorMessage"
+                placeholder="Buscar idiomas"
+                @search="searchLanguages"
+              />
+
+              <p
+                v-if="noResults"
+                class="filters-page__no-results mt-md pa-sm"
+              >
+                No results found
+              </p>
+
+              <div v-else>
+                <div
+                  v-for="(item, index) in searchedLanguages"
+                  :key="index"
+                  class="filters-page__languages-list mt-sm"
+                >
+                  <p
+                    class="pa-sm"
+                    @click="selectLanguage(item)"
+                  >
+                    {{ item.name }}
+                  </p>
                 </div>
               </div>
-
             </div>
           </div>
         </section>
   
         <footer class="filters-page__buttons mt-xl">
-          <button class="filters-page__clear-filters" @click="clearFilters">
-            <img src="../assets/icons/delete.svg" alt="Delete icon">
+          <button
+            class="filters-page__clear-filters"
+            type="button"
+            @click="clearFilters"
+          >
+            <img
+              alt="Delete icon"
+              src="../assets/icons/delete.svg"
+            >
             <p>Clear filters</p>
           </button>
-          <main-button label="Filter" @click="confirmFilter" />
-          <button class="filters-page__secondary-button" @click="$router.go(-1)">Cancel</button>
+
+          <main-button
+            label="Filter"
+            @click="confirmFilter"
+          />
+          <button
+            class="filters-page__secondary-button"
+            type="button"
+            @click="$router.go(-1)"
+          >
+            Cancel
+          </button>
         </footer>
       </div>
     </main>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -101,6 +225,8 @@ import MainButton from '../components/MainButton.vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  name: 'FilterPage',
+
   components: {
     SelectOptions,
     MainButton,
@@ -117,14 +243,6 @@ export default {
       othersLanguages: [],
       hasErrors: false,
       didResearch: false
-    }
-  },
-
-  watch: {
-    languages () {
-      if(!this.isOtherLanguage) {
-        this.othersLanguages = []
-      }
     }
   },
 
@@ -150,6 +268,14 @@ export default {
 
     isOtherLanguage () {
       return this.languages.includes('other')
+    }
+  },
+
+  watch: {
+    languages () {
+      if(!this.isOtherLanguage) {
+        this.othersLanguages = []
+      }
     }
   },
 

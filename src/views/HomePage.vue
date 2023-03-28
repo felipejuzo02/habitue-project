@@ -1,52 +1,114 @@
 <template>
-  <section class="home-page" :class="homePageClasses">
-    <header class="home-page__header pa-lg container">
+  <section
+    class="home-page"
+    :class="homePageClasses"
+  >
+    <header class="container home-page__header pa-lg">
       <h1 class="home-page__title">
-        <img src="../assets/logo.svg" alt="Habitue Logo">
+        <img
+          alt="Habitue Logo"
+          src="../assets/logo.svg"
+        >
       </h1>
   
       <div class="home-page__filters mt-md">
-        <search-filter placeholder="Search countries..." v-model="searchValue" />
-        <button class="home-page__filter-button px-sm ml-md" @click="goToFilters">
-          <img src="../assets/icons/filter.svg" alt="Filter icon">
+        <search-filter
+          v-model="searchValue"
+          placeholder="Search countries..."
+        />
+        <button
+          class="home-page__filter-button ml-md px-sm"
+          type="button"
+          @click="goToFilters"
+        >
+          <img
+            alt="Filter icon"
+            src="../assets/icons/filter.svg"
+          >
         </button>
       </div>
   
       <div class="home-page__chips mt-md">
         <chip-filter :label="continentName" />
-        <chip-filter v-if="hasLanguageQuantity" :label="quantityLanguageLabel" />
-        <div v-for="(item, index) in languagesFilter" :key="index">
-          <chip-filter v-if="hideOtherChip(item)" :label="languageLabel(item)" />
+        <chip-filter
+          v-if="hasLanguageQuantity"
+          :label="quantityLanguageLabel"
+        />
+        <div
+          v-for="(item, index) in languagesFilter"
+          :key="index"
+        >
+          <chip-filter
+            v-if="hideOtherChip(item)"
+            :label="languageLabel(item)"
+          />
         </div>
       </div>
     </header>
 
     <main class="home-page__list px-lg">
-      <div v-if="loadingFinished" class="pb-md container">
-        <h2 class="section-title pt-md">Listing</h2>
-        <div class="home-page__countries-list" v-if="hasCountries">
-          <country-card v-for="(item, index) in countriesList" :key="index" :country="item" :continent="continent.name" class="my-md" />
+      <div
+        v-if="loadingFinished"
+        class="container pb-md"
+      >
+        <h2 class="pt-md section-title">
+          Listing
+        </h2>
+        <div
+          v-if="hasCountries"
+          class="home-page__countries-list"
+        >
+          <country-card
+            v-for="(item, index) in countriesList"
+            :key="index"
+            class="my-md"
+            :continent="continent.name"
+            :country="item"
+          />
         </div>
-        <p v-else class="home-page__no-results mt-xl">No results found</p>
+        <p
+          v-else
+          class="home-page__no-results mt-xl"
+        >
+          No results found
+        </p>
       </div>
 
-      <div class="home-page__loading" v-else>
-        <loading-list v-if="!continentModal"  />
+      <div
+        v-else
+        class="home-page__loading"
+      >
+        <loading-list v-if="!continentModal" />
       </div>
     </main>
   </section>
 
-  <div v-if="continentModal" class="home-page__continents-modal pa-lg">
+  <div
+    v-if="continentModal"
+    class="home-page__continents-modal pa-lg"
+  >
     <div>
-      <h3 class="mb-sm">Choose a continent</h3>
+      <h3 class="mb-sm">
+        Choose a continent
+      </h3>
       <p>To proceed, you must define a continent to carry out the query.</p>
     </div>
-    <select-options placeholder="Select a continent..." :options="continents" @choose-option="setSelectedContinent" />
-    <main-button label="Confirm choice" @click="confirmChoice" />
-    <p></p>
+    <select-options
+      :options="continents"
+      placeholder="Select a continent..."
+      @choose-option="setSelectedContinent"
+    />
+    <main-button
+      label="Confirm choice"
+      @click="confirmChoice"
+    />
+    <p />
   </div>
 
-  <div v-if="continentModal" class="home-page__opened-modal"></div>
+  <div
+    v-if="continentModal"
+    class="home-page__opened-modal"
+  />
 </template>
 
 <script>
@@ -60,6 +122,8 @@ import { filterList } from '../helpers'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
+  name: 'HomePage',
+
   components: {
     SearchFilter,
     ChipFilter,
@@ -105,7 +169,9 @@ export default {
 
     countriesList () {
       const { languageQuantity, languages } = this.customQuery
-      const countries = this.hasLanguageQuantity || languages ? filterList(this.continent?.countries, languageQuantity, languages) : this.continent?.countries
+      const countries = this.hasLanguageQuantity || languages
+        ? filterList(this.continent?.countries, languageQuantity, languages) 
+        : this.continent?.countries
 
       if(countries) {
         return countries.filter(country => {
@@ -114,6 +180,8 @@ export default {
           return regex.test(country?.name)
         })
       }
+
+      return []
     },
 
     hasLanguageQuantity () {
