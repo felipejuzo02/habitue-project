@@ -20,36 +20,12 @@
         <section class="my-lg">
           <p>Number of languages in the country</p>
           <div class="mt-xs">
-            <div class="filters-page__radio">
-              <input
-                id="0"
-                v-model="languageQuantity"
-                name="moreLanguages"
-                type="radio"
-                value="0"
-              >
-              <label for="0">Show all</label>
-            </div>
-            <div class="filters-page__radio my-xs">
-              <input
-                id="1"
-                v-model="languageQuantity"
-                name="moreLanguages"
-                type="radio"
-                value="1"
-              >
-              <label for="1">1 only</label>
-            </div>
-            <div class="filters-page__radio">
-              <input
-                id="2"
-                v-model="languageQuantity"
-                name="moreLanguages"
-                type="radio"
-                value="2"
-              >
-              <label for="2">2 or more</label>
-            </div>
+            <app-radio
+              v-for="(option, index) in languageQuantityOptions"
+              :key="index"
+              v-model="languageQuantity"
+              :content="option"
+            />
           </div>
         </section>
   
@@ -211,6 +187,7 @@ import AppSelect from '../components/AppSelect.vue'
 import AppSearchFilter from '../components/AppSearchFilter.vue'
 import AppMainButton from '../components/AppMainButton.vue'
 import AppHeader from '../components/AppHeader.vue'
+import AppRadio from '../components/AppRadio.vue'
 
 import { mapGetters, mapActions } from 'vuex'
 
@@ -221,11 +198,13 @@ export default {
     AppSelect,
     AppMainButton,
     AppSearchFilter,
-    AppHeader
+    AppHeader,
+    AppRadio
   },
 
   data () {
     return {
+      clayton: '',
       selectedContinent: '',
       languages: [],
       languageQuantity: '',
@@ -244,6 +223,23 @@ export default {
       customQuery: 'continents/customQuery',
       languagesList: 'continents/languages'
     }),
+
+    languageQuantityOptions () {
+      return [
+        {
+          value: 0,
+          label: 'Show all'
+        },
+        {
+          value: 1,
+          label: '1 Only'
+        },
+        {
+          value: 2,
+          label: '2 or More'
+        }
+      ]
+    },
 
     errorMessage () {
       return this.hasErrors ? 'Select another language' : ''
@@ -357,32 +353,6 @@ export default {
     border-radius: 36px 36px 0 0;
     background: #fff;
     color: $black;
-  }
-
-  &__radio {
-    & input {
-      display: none;
-
-      & + label:before {
-        content: '';
-        width: 1rem;
-        height: 1rem;
-        border-radius: 50%;
-        background-color: $white;
-        border: 1px solid $grey3;
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: 0.5rem;
-        margin-bottom: 0.25rem;
-      }
-
-      &:checked + label:before {
-        background-color: $white;
-        box-sizing: border-box;
-        border: 5px solid $primary;
-        padding: 0.25rem;
-      }
-    }
   }
 
   &__checkbox {
