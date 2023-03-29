@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  name: 'SearchFilter',
+  name: 'AppSeachFilter',
 
   props: {
     error: {

@@ -1,18 +1,6 @@
 <template>
   <div class="filters-page">
-    <header class="container filters-page__header pa-lg">
-      <button
-        class="filters-page__back-button"
-        type="button"
-        @click="$router.go(-1)"
-      >
-        <img
-          alt="Back page icon"
-          src="../assets/icons/arrow-left.svg"
-        >
-      </button>
-      <h3>Filter</h3>
-    </header>
+    <app-header title="Filter" />
 
     <main class="filters-page__choose-filters px-lg">
       <div class="container">
@@ -22,7 +10,7 @@
   
         <section class="my-lg">
           <p>Continent</p>
-          <select-options
+          <app-select
             :options="continents"
             :placeholder="defaultPlaceholder"
             @choose-option="setSelectedContinent"
@@ -155,7 +143,7 @@
               class="mt-md"
             >
               <p>Enter the desired language name</p>
-              <search-filter
+              <app-search-filter
                 v-model="searchValue"
                 :error="hasErrors"
                 :error-message="errorMessage"
@@ -201,7 +189,7 @@
             <p>Clear filters</p>
           </button>
 
-          <main-button
+          <app-main-button
             label="Filter"
             @click="confirmFilter"
           />
@@ -219,18 +207,21 @@
 </template>
 
 <script>
-import SelectOptions from '../components/SelectOptions.vue'
-import SearchFilter from '../components/SearchFilter.vue'
-import MainButton from '../components/MainButton.vue'
+import AppSelect from '../components/AppSelect.vue'
+import AppSearchFilter from '../components/AppSearchFilter.vue'
+import AppMainButton from '../components/AppMainButton.vue'
+import AppHeader from '../components/AppHeader.vue'
+
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'FilterPage',
 
   components: {
-    SelectOptions,
-    MainButton,
-    SearchFilter
+    AppSelect,
+    AppMainButton,
+    AppSearchFilter,
+    AppHeader
   },
 
   data () {
@@ -361,29 +352,6 @@ export default {
 <style lang="scss">
 .filters-page {
   background: $bg-white;
-
-  &__header {
-    text-align: center;
-    position: relative;
-
-    & > h3 {
-      font-size: 1.375rem;
-      color: $primary;
-    }
-  }
-
-  &__back-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    left: 1.875rem;
-    padding: 6px;
-
-    &:hover {
-      background-color: $grey2;
-    }
-  }
 
    &__choose-filters {
     border-radius: 36px 36px 0 0;

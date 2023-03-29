@@ -12,7 +12,7 @@
       </h1>
   
       <div class="home-page__filters mt-md">
-        <search-filter
+        <app-search-filter
           v-model="searchValue"
           placeholder="Search countries..."
         />
@@ -29,8 +29,8 @@
       </div>
   
       <div class="home-page__chips mt-md">
-        <chip-filter :label="continentName" />
-        <chip-filter
+        <app-chip-filter :label="continentName" />
+        <app-chip-filter
           v-if="hasLanguageQuantity"
           :label="quantityLanguageLabel"
         />
@@ -38,7 +38,7 @@
           v-for="(item, index) in languagesFilter"
           :key="index"
         >
-          <chip-filter
+          <app-chip-filter
             v-if="hideOtherChip(item)"
             :label="languageLabel(item)"
           />
@@ -58,7 +58,7 @@
           v-if="hasCountries"
           class="home-page__countries-list"
         >
-          <country-card
+          <app-country-card
             v-for="(item, index) in countriesList"
             :key="index"
             class="my-md"
@@ -78,7 +78,7 @@
         v-else
         class="home-page__loading"
       >
-        <loading-list v-if="!continentModal" />
+        <app-loading-list v-if="!continentModal" />
       </div>
     </main>
   </section>
@@ -93,16 +93,15 @@
       </h3>
       <p>To proceed, you must define a continent to carry out the query.</p>
     </div>
-    <select-options
+    <app-select
       :options="continents"
       placeholder="Select a continent..."
       @choose-option="setSelectedContinent"
     />
-    <main-button
+    <app-main-button
       label="Confirm choice"
       @click="confirmChoice"
     />
-    <p />
   </div>
 
   <div
@@ -112,12 +111,13 @@
 </template>
 
 <script>
-import SearchFilter from '../components/SearchFilter.vue'
-import ChipFilter from '../components/ChipFilter.vue'
-import CountryCard from '../components/CountryCard.vue'
-import LoadingList from '../components/LoadingList.vue'
-import MainButton from '../components/MainButton.vue'
-import SelectOptions from '../components/SelectOptions.vue'
+import AppSearchFilter from '../components/AppSearchFilter.vue'
+import AppChipFilter from '../components/AppChipFilter.vue'
+import AppCountryCard from '../components/AppCountryCard.vue'
+import AppLoadingList from '../components/AppLoadingList.vue'
+import AppMainButton from '../components/AppMainButton.vue'
+import AppSelect from '../components/AppSelect.vue'
+
 import { filterList } from '../helpers'
 import { mapActions, mapGetters } from 'vuex'
 
@@ -125,12 +125,12 @@ export default {
   name: 'HomePage',
 
   components: {
-    SearchFilter,
-    ChipFilter,
-    CountryCard,
-    LoadingList,
-    MainButton,
-    SelectOptions
+    AppSearchFilter,
+    AppChipFilter,
+    AppCountryCard,
+    AppLoadingList,
+    AppMainButton,
+    AppSelect
   },
 
   data() {
