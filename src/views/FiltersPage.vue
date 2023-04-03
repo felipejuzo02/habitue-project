@@ -34,69 +34,14 @@
             Languages
           </p>
           <div class="filters-page__languages-container">
-            <div class="filters-page__checkbox">
-              <input
-                id="pt"
-                v-model="languages"
-                name="languages"
-                type="checkbox"
-                value="pt"
-              >
-              <label for="pt">Portuguese</label>
-            </div>
-            <div class="filters-page__checkbox my-xs">
-              <input
-                id="en"
-                v-model="languages"
-                name="languages"
-                type="checkbox"
-                value="en"
-              >
-              <label for="en">English</label>
-            </div>
-            <div class="filters-page__checkbox">
-              <input
-                id="es"
-                v-model="languages"
-                name="languages"
-                type="checkbox"
-                value="es"
-              >
-              <label for="es">Spanish</label>
-            </div>
-            <div class="filters-page__checkbox my-xs">
-              <input
-                id="de"
-                v-model="languages"
-                name="languages"
-                type="checkbox"
-                value="de"
-              >
-              <label for="de">German</label>
-            </div>
-            <div class="filters-page__checkbox">
-              <input
-                id="fr"
-                v-model="languages"
-                name="languages"
-                type="checkbox"
-                value="fr"
-              >
-              <label for="fr">French</label>
-            </div>
-            <div
-              class="filters-page__checkbox my-xs"
-              @click="clearOthersLanguages"
-            >
-              <input
-                id="other"
-                v-model="languages"
-                name="languages"
-                type="checkbox"
-                value="other"
-              >
-              <label for="other">Other</label>
-            </div>
+            <!-- TODO: validar o uso do clearOtherLanguages -->
+            <app-checkbox 
+              v-for="(item, index) in languagesOptions"
+              :key="index"
+              v-model="languages"
+              :content="item"
+            />
+
             <div class="filters-page__checkbox my-xs">
               <div
                 v-for="(item, index) in othersLanguages"
@@ -188,6 +133,7 @@ import AppSearchFilter from '../components/AppSearchFilter.vue'
 import AppMainButton from '../components/AppMainButton.vue'
 import AppHeader from '../components/AppHeader.vue'
 import AppRadio from '../components/AppRadio.vue'
+import AppCheckbox from '../components/AppCheckbox.vue'
 
 import { mapGetters, mapActions } from 'vuex'
 
@@ -199,12 +145,12 @@ export default {
     AppMainButton,
     AppSearchFilter,
     AppHeader,
-    AppRadio
+    AppRadio,
+    AppCheckbox
   },
 
   data () {
     return {
-      clayton: '',
       selectedContinent: '',
       languages: [],
       languageQuantity: '',
@@ -237,6 +183,35 @@ export default {
         {
           value: 2,
           label: '2 or More'
+        }
+      ]
+    },
+
+    languagesOptions () {
+      return [
+        {
+          label: 'Portuguese',
+          value: 'pt'
+        },
+        {
+          label: 'English',
+          value: 'en'
+        },
+        {
+          label: 'Spanish',
+          value: 'es'
+        },
+        {
+          label: 'German',
+          value: 'de'
+        },
+        {
+          label: 'French',
+          value: 'fr'
+        },
+        {
+          label: 'Other',
+          value: 'other'
         }
       ]
     },
@@ -353,31 +328,6 @@ export default {
     border-radius: 36px 36px 0 0;
     background: #fff;
     color: $black;
-  }
-
-  &__checkbox {
-    & input {
-      display: none;
-
-      & + label:before {
-        content: '';
-        width: 1rem;
-        height: 1rem;
-        background-color: $white;
-        border: 1px solid $grey3;
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: 0.5rem;
-        margin-bottom: 0.25rem;
-      }
-
-      &:checked + label:before {
-        background-color: $white;
-        box-sizing: border-box;
-        border: 5px solid $primary;
-        padding: 0.25rem;
-      }
-    }
   }
 
   &__languages-list {
